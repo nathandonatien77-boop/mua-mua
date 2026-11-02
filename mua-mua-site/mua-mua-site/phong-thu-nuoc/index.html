@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Phòng Thử Nước</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap">
+<style>
+/* Layout: one phone-width column. A simulated live stream of the glass test room is the hero; the chat, the comparison and the shopping list follow. */
+:root{
+  --bg:#EDF2F1; --surface:#F8FAF9; --ink:#0E2731; --muted:#55707A; --line:#D3DEDC;
+  --accent:#1B6475; --on-accent:#FFFFFF; --glow:#7FD0DC; --live:#C4432B; --on-live:#FFFFFF;
+  --risk:#B03A24; --risk-soft:#F6E3DD; --safe:#1B6475; --safe-soft:#DCEFF1; --shadow:rgba(14,39,49,.14);
+  --hud-bg:rgba(14,39,49,.74); --hud-ink:#FFFFFF;
+  --display:'Fraunces', Georgia, 'Times New Roman', serif;
+  --body:'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* the showroom scene, front view, 2 px per cm, floor at y = 230 */
+  --wall:#E3E8E6; --frame:#5B7079; --room:#F2F6F5; --glass:rgba(127,208,220,.45); --floor:#CDBFAC;
+  --wood:#B88C61; --wood-dark:#8C6744; --chip:#D8C6A3; --chip-dark:#B9A47C; --fabric:#5D7E85; --fabric-dark:#46626A; --cushion:#6E9097;
+  --rug:#B5583F; --rug2:#E2C07A; --kit:#2A8C9E; --kit-hi:#7FD0DC; --stain:rgba(70,48,24,.55);
+  --water-top:rgba(127,208,220,.62); --water-bot:rgba(27,100,117,.84); --water-line:#E9FAFC; --bubble:rgba(255,255,255,.7);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1E26; --surface:#12303A; --ink:#E9F1F0; --muted:#A2B8BE; --line:#24464F;
+    --accent:#7FD0DC; --on-accent:#0B1E26; --glow:#7FD0DC; --live:#F08A6E; --on-live:#0B1E26;
+    --risk:#F08A6E; --risk-soft:#3B2621; --safe:#7FD0DC; --safe-soft:#143B45; --shadow:rgba(0,0,0,.4);
+    --wall:#2B3C42; --frame:#A2B8BE; --room:#20343B; --glass:rgba(127,208,220,.35); --floor:#3D3B36;
+    --wood:#8B6B4C; --wood-dark:#6A5037; --chip:#9C8B6B; --chip-dark:#7E6F52; --fabric:#4B6970; --fabric-dark:#3A535A; --cushion:#587A81;
+    --rug:#94493A; --rug2:#B89A60; --kit:#3FA3B5; --stain:rgba(10,8,4,.6);
+    --water-top:rgba(127,208,220,.5); --water-bot:rgba(16,57,74,.86); --water-line:#BFEFF5; --bubble:rgba(233,241,240,.55);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1E26; --surface:#12303A; --ink:#E9F1F0; --muted:#A2B8BE; --line:#24464F;
+  --accent:#7FD0DC; --on-accent:#0B1E26; --glow:#7FD0DC; --live:#F08A6E; --on-live:#0B1E26;
+  --risk:#F08A6E; --risk-soft:#3B2621; --safe:#7FD0DC; --safe-soft:#143B45; --shadow:rgba(0,0,0,.4);
+  --wall:#2B3C42; --frame:#A2B8BE; --room:#20343B; --glass:rgba(127,208,220,.35); --floor:#3D3B36;
+  --wood:#8B6B4C; --wood-dark:#6A5037; --chip:#9C8B6B; --chip-dark:#7E6F52; --fabric:#4B6970; --fabric-dark:#3A535A; --cushion:#587A81;
+  --rug:#94493A; --rug2:#B89A60; --kit:#3FA3B5; --stain:rgba(10,8,4,.6);
+  --water-top:rgba(127,208,220,.5); --water-bot:rgba(16,57,74,.86); --water-line:#BFEFF5; --bubble:rgba(233,241,240,.55);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:20px 36px}
+.app{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.eyebrow{margin:0;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{margin:6px 0 0;font-family:var(--display);font-style:italic;font-weight:600;font-size:42px;line-height:1.02;letter-spacing:-.01em}
+h1 span{color:var(--accent)}
+h2{margin:0;font-family:var(--display);font-style:italic;font-weight:600;font-size:24px;line-height:1.15}
+.lede{margin:8px 0 0;color:var(--muted);max-width:34ch}
+.steps{display:flex;gap:6px;list-style:none;margin:0;padding:0;font-size:13px;font-weight:600;color:var(--muted)}
+.steps li{flex:1;padding:7px 8px;border-radius:999px;background:var(--surface);border:1px solid var(--line);text-align:center}
+.steps li[aria-current="step"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.label{margin:0;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.stage{position:relative;border-radius:22px;overflow:hidden;background:var(--wall);box-shadow:0 12px 32px var(--shadow)}
+.stage svg{display:block;width:100%;height:auto}
+.hud{position:absolute;top:10px;display:flex;gap:6px;align-items:center;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+.hud.l{left:10px} .hud.r{right:10px}
+.pill{padding:5px 9px;border-radius:999px;background:var(--hud-bg);color:var(--hud-ink);white-space:nowrap}
+.pill.live{background:var(--live);color:var(--on-live);letter-spacing:.08em}
+.hearts{position:absolute;right:10px;bottom:10px;width:40px;height:150px;pointer-events:none}
+.heart{position:absolute;bottom:0;left:12px;width:16px;height:16px;color:var(--live);animation:float 2.4s ease-out forwards}
+@keyframes float{from{transform:translate(0,0) scale(.6);opacity:1}to{transform:translate(var(--dx),-140px) scale(1.1);opacity:0}}
+.chat{display:flex;flex-direction:column;gap:6px;min-height:96px;justify-content:flex-end;padding:12px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.chat p{margin:0;font-size:14px;line-height:1.35;animation:in .35s ease-out}
+.chat b{color:var(--accent);font-weight:700}
+.chat .empty{color:var(--muted)}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.primary{appearance:none;border:0;border-radius:14px;background:var(--accent);color:var(--on-accent);font:600 17px/1 var(--body);padding:17px 20px;cursor:pointer;width:100%}
+.primary:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible{outline:3px solid var(--glow);outline-offset:2px}
+.times{margin:0;font-size:14px;color:var(--muted);text-align:center}
+.times b{color:var(--ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.side{border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.side.bad{background:var(--risk-soft)} .side.good{background:var(--safe-soft)}
+.side h3{margin:0;font-size:14px;font-weight:700}
+.side.bad h3{color:var(--risk)} .side.good h3{color:var(--safe)}
+.side ul{margin:0;padding-left:18px;font-size:13px;line-height:1.4}
+.shop{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.shop button{appearance:none;width:100%;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;text-align:left;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;font:inherit}
+.shop b{display:block;font-weight:600;line-height:1.3} .shop small{display:block;font-size:13px;color:var(--muted)}
+.shop .add{font-size:12px;font-weight:700;letter-spacing:.04em;padding:7px 10px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.shop button[aria-pressed="true"]{border-color:var(--safe);background:var(--safe-soft)}
+.shop button[aria-pressed="true"] .add{background:var(--safe);color:var(--on-accent);border-color:var(--safe)}
+.sum{margin:0;font-size:14px;font-weight:600;padding-top:10px;border-top:1px solid var(--line)}
+.ghost{appearance:none;background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:14px;padding:15px;font:600 15px/1 var(--body);cursor:pointer}
+.tagline{font:700 11px var(--body);letter-spacing:.06em}
+.room-l{font:700 12px var(--body);fill:var(--ink);letter-spacing:.08em}
+.room-r{font:700 12px var(--body);fill:var(--accent);letter-spacing:.08em}
+.gl{font:600 9px var(--body);fill:var(--frame)}
+footer{font-size:12px;color:var(--muted);line-height:1.5}
+@media (prefers-reduced-motion: reduce){.heart,.chat p{animation:none}}
+</style>
+
+<main class="app">
+  <header>
+    <p class="eyebrow">Concept prototype · in-store, live</p>
+    <h1>Phòng <span>Thử Nước</span></h1>
+    <p class="lede">The water test room: 45 cm of water, three times a day, streamed live.</p>
+  </header>
+  <ol class="steps" aria-label="Steps">
+    <li id="st1" aria-current="step">1 Watch</li><li id="st2">2 Compare</li><li id="st3">3 Your list</li>
+  </ol>
+  <div class="stage">
+    <svg id="scene" viewBox="0 -40 400 300" role="img" aria-label="A glass test room split in two: ordinary furniture on the left, Mùa Mưa furniture on the right"></svg>
+    <div class="hud l"><span class="pill live">LIVE</span><span class="pill" id="viewers">312 watching</span></div>
+    <div class="hud r"><span class="pill" id="level">Dry</span><span class="pill" id="timer">00:00</span></div>
+    <div class="hearts" id="hearts" aria-hidden="true"></div>
+  </div>
+  <div class="chat" id="chat" aria-live="polite"><p class="empty">The chat opens when the tide show starts.</p></div>
+  <button class="primary" id="go" type="button">Start the tide show</button>
+  <p class="times" id="times"></p>
+
+  <section class="card" id="cmpCard" hidden aria-labelledby="cmpTitle">
+    <p class="label" id="cmpTitle">After 45 cm of water</p>
+    <h2 id="cmpHead">Same water, two results</h2>
+    <div class="cmp">
+      <div class="side bad"><h3>Ordinary furniture</h3><ul><li>Sofa soaked to the seat</li><li>Chipboard bench swollen</li><li>Rug ruined</li></ul></div>
+      <div class="side good"><h3>Mùa Mưa</h3><ul><li>Sofa dry on its raise kit</li><li>TV bench dry on the wall</li><li>Rug rolled up, dry</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" id="shopCard" hidden aria-labelledby="shopTitle">
+    <p class="label" id="shopTitle">Shop the look</p>
+    <ul class="shop" id="shop"></ul>
+    <p class="sum" id="sum"></p>
+    <button class="ghost" id="again" type="button">Watch again</button>
+  </section>
+
+  <footer>Student concept prototype from our strategy pitch on IKEA in Vietnam (Coventry University, 2026). Not an IKEA app; the stream, viewers and comments are simulated. Built with AI assistance.</footer>
+</main>
+
+<script>
+(() => {
+  const reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const $ = id => document.getElementById(id);
+  const Y = cm => 230 - 2 * cm;
+  const R = (x, y, w, h, f, rx) => `<rect x="${x}" y="${y}" width="${w}" height="${h}"${rx ? ` rx="${rx}"` : ''} style="fill:var(--${f})"/>`;
+  const sofa = dx => R(dx + 8, 206, 8, 24, 'wood-dark') + R(dx + 88, 206, 8, 24, 'wood-dark') + R(dx + 4, 70, 96, 80, 'fabric-dark', 8) +
+    R(dx, 188, 104, 18, 'fabric-dark', 3) + R(dx + 14, 146, 38, 44, 'cushion', 6) + R(dx + 52, 146, 38, 44, 'cushion', 6) +
+    R(dx, 122, 14, 84, 'fabric', 6) + R(dx + 90, 122, 14, 84, 'fabric', 6);
+  const SHOP = [
+    ['Mùa Mưa raise kit', 'lifts the sofa you already own by 35 cm'],
+    ['Wall-mounted TV bench', 'fixed at 58 cm, with brackets'],
+    ['Waterproof storage box', 'for papers and clothes, on a high shelf'],
+    ['Tide alerts in the app', 'free: Lịch Triều warns you 3 days ahead']
+  ];
+  const CHAT = [
+    ['lan.d8', 'we had 40 cm in our alley last October'],
+    ['minh.hcm', 'the left sofa is already under water'],
+    ['thao.home', 'does the raise kit fit any sofa?'],
+    ['anh.q7', 'can I pay in instalments?'],
+    ['huy.binhthanh', '45 cm and the right side is still dry'],
+    ['mai.go', 'saving the bench on the wall for my flat']
+  ];
+  const S = { phase: 'idle', t0: 0, level: 0, chat: 0, picked: new Set([0]), raf: 0, lastHeart: 0, drainT0: 0, stain: 0 };
+
+  function scene() {
+    let s = '<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--water-top)"/><stop offset="1" style="stop-color:var(--water-bot)"/></linearGradient>' +
+      '<clipPath id="room"><rect x="18" y="-14" width="364" height="244"/></clipPath></defs>';
+    s += R(0, -40, 400, 300, 'wall') + R(0, 230, 400, 30, 'floor');
+    s += `<rect x="16" y="-16" width="368" height="248" rx="4" style="fill:var(--room);stroke:var(--frame);stroke-width:3"/>`;
+    s += '<text class="room-l" x="24" y="250">ORDINARY</text><text class="room-r" x="376" y="250" text-anchor="end">MÙA MƯA</text>';
+    // left: ordinary furniture
+    s += R(24, 226, 168, 4, 'rug') + R(30, 227, 156, 1.5, 'rug2');
+    s += sofa(30);
+    s += R(140, 140, 52, 86, 'chip', 2) + R(144, 150, 44, 30, 'chip-dark', 1) + R(146, 152, 40, 26, 'chip', 1) + R(144, 186, 44, 34, 'chip-dark', 1) + R(146, 188, 40, 30, 'chip', 1) + R(144, 226, 6, 4, 'chip-dark') + R(182, 226, 6, 4, 'chip-dark');
+    // stains appear on the ordinary side after the water drains
+    s += `<g id="stain" style="opacity:0">${R(30, 140, 104, 66, 'stain', 4)}${R(38, 206, 8, 24, 'stain')}${R(118, 206, 8, 24, 'stain')}${R(140, 140, 52, 86, 'stain', 2)}${R(24, 224, 168, 6, 'stain')}</g>`;
+    // right: Mùa Mưa furniture (sofa on its raise kit, bench on the wall, rug rolled up)
+    s += R(219, 160, 14, 70, 'kit', 2) + R(299, 160, 14, 70, 'kit', 2) + R(221, 164, 2, 62, 'kit-hi') + R(301, 164, 2, 62, 'kit-hi');
+    s += `<g transform="translate(0,-70)">${sofa(214)}</g>`;
+    s += R(236, 64, 64, 12, 'rug', 6) + `<ellipse cx="300" cy="70" rx="3.5" ry="6" style="fill:var(--rug2)"/>`;
+    s += R(324, 82, 52, 32, 'wood', 2) + R(328, 96, 44, 2, 'wood-dark') + R(332, 114, 5, 9, 'kit') + R(363, 114, 5, 9, 'kit');
+    // water (clipped to the glass room), bubbles, glass divider and the 45 cm line
+    s += '<g clip-path="url(#room)"><path id="water" style="fill:url(#wg)" d=""/><path id="surf" style="fill:none;stroke:var(--water-line);stroke-width:1.6" d=""/><g id="bubbles"></g></g>';
+    s += `<rect x="198" y="-14" width="4" height="244" style="fill:var(--glass)"/>`;
+    for (const cm of [15, 30, 45]) s += `<line x1="193" x2="207" y1="${Y(cm)}" y2="${Y(cm)}" style="stroke:var(--frame);stroke-width:1.2"/><text class="gl" x="200" y="${Y(cm) - 3}" text-anchor="middle">${cm}</text>`;
+    s += `<line x1="18" x2="382" y1="${Y(45)}" y2="${Y(45)}" style="stroke:var(--frame);stroke-width:1;stroke-dasharray:4 4;opacity:.6"/>`;
+    s += `<g id="tags" style="opacity:0"><rect x="64" y="196" width="92" height="20" rx="10" style="fill:var(--risk)"/><text class="tagline" x="110" y="210" text-anchor="middle" style="fill:var(--on-accent)">3 OF 3 WET</text>` +
+      `<rect x="250" y="196" width="92" height="20" rx="10" style="fill:var(--safe)"/><text class="tagline" x="296" y="210" text-anchor="middle" style="fill:var(--on-accent)">0 OF 3 WET</text></g>`;
+    $('scene').innerHTML = s;
+  }
+
+  const fmt = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  const ease = p => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+  function setStep(k) { ['st1', 'st2', 'st3'].forEach((id, i) => { const el = $(id); if (i + 1 === k) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current'); }); }
+  function drawWater(lv, t) {
+    const water = $('water'), surf = $('surf'), bub = $('bubbles');
+    if (lv < 0.3) { water.setAttribute('d', ''); surf.setAttribute('d', ''); bub.innerHTML = ''; return; }
+    const y0 = Y(lv), amp = reduce ? 0 : 1.4;
+    let top = '';
+    for (let x = 18; x <= 382; x += 8) top += (x === 18 ? 'M' : ' L') + x + ' ' + (y0 + Math.sin(x / 26 + t * 2.4) * amp + Math.sin(x / 9 - t * 3) * amp * .4).toFixed(2);
+    water.setAttribute('d', top + ' L382 230 L18 230 Z'); surf.setAttribute('d', top);
+    if (!reduce && S.phase === 'filling') {
+      let b = '';
+      for (let k = 0; k < 14; k++) {
+        const ph = (t * 0.6 + k * 0.137) % 1, x = 26 + (k * 53) % 350, y = 228 - ph * (228 - y0);
+        if (y > y0 + 4) b += `<circle cx="${x}" cy="${y.toFixed(1)}" r="${(1.2 + (k % 3) * .6).toFixed(1)}" style="fill:var(--bubble)"/>`;
+      }
+      bub.innerHTML = b;
+    } else bub.innerHTML = '';
+  }
+  function addChat(i) {
+    const box = $('chat'); const e = box.querySelector('.empty'); if (e) e.remove();
+    const p = document.createElement('p'); p.innerHTML = `<b>${CHAT[i][0]}</b> ${CHAT[i][1]}`; box.appendChild(p);
+    while (box.children.length > 3) box.firstElementChild.remove();
+  }
+  function heart() {
+    if (reduce) return;
+    const h = document.createElement('span'); h.className = 'heart';
+    h.style.setProperty('--dx', (Math.random() * 24 - 12).toFixed(0) + 'px');
+    h.innerHTML = '<svg viewBox="0 0 16 16" width="16" height="16"><path d="M8 14s-6-3.8-6-8a3.2 3.2 0 0 1 6-1.6A3.2 3.2 0 0 1 14 6c0 4.2-6 8-6 8z" fill="currentColor"/></svg>';
+    $('hearts').appendChild(h); setTimeout(() => h.remove(), 2500);
+  }
+  function tick(now) {
+    const t = (now - S.t0) / 1000;
+    if (S.phase === 'filling') {
+      const p = Math.min(1, t / 9);
+      S.level = 45 * ease(p);
+      while (S.chat < CHAT.length && t >= 1 + S.chat * 1.7) addChat(S.chat++);
+      $('viewers').textContent = `${Math.round(312 + 936 * p).toLocaleString('en-GB')} watching`;
+      if (now - S.lastHeart > 380) { heart(); S.lastHeart = now; }
+      if (p >= 1) { S.phase = 'full'; $('tags').style.opacity = 1; $('go').disabled = false; $('go').textContent = 'Drain the room'; setStep(2); }
+    } else if (S.phase === 'draining') {
+      const p = Math.min(1, (now - S.drainT0) / 4000);
+      S.level = 45 * (1 - ease(p));
+      $('stain').style.opacity = (0.9 * p).toFixed(2);
+      if (p >= 1) { S.phase = 'done'; S.level = 0; finish(); }
+    }
+    if (S.phase !== 'idle') $('timer').textContent = fmt(Math.max(0, t));
+    $('level').textContent = S.level < 0.5 ? 'Dry' : `Water ${Math.round(S.level)} cm`;
+    drawWater(S.level, now / 1000);
+    if (S.phase !== 'idle' && S.phase !== 'done') S.raf = requestAnimationFrame(tick);
+    else if (S.phase === 'done') drawWater(0, 0);
+  }
+  function finish() {
+    $('cmpCard').hidden = false; $('shopCard').hidden = false; setStep(3);
+    $('go').hidden = true; drawShop();
+    $('cmpCard').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  function drawShop() {
+    $('shop').innerHTML = SHOP.map((it, i) => `<li><button type="button" data-i="${i}" aria-pressed="${S.picked.has(i)}"><span><b>${it[0]}</b><small>${it[1]}</small></span><span class="add">${S.picked.has(i) ? 'In my list' : 'Add'}</span></button></li>`).join('');
+    const n = S.picked.size;
+    $('sum').textContent = n ? `${n} item${n > 1 ? 's' : ''} in your list · payable in instalments · see them in the showroom` : 'Add what you saw in the show.';
+  }
+  function showTimes() {
+    const now = new Date(), mins = now.getHours() * 60 + now.getMinutes();
+    const shows = [600, 840, 1080];
+    const live = shows.find(m => mins >= m && mins < m + 15);
+    const next = shows.find(m => m > mins);
+    let txt = 'Tide shows today: <b>10:00 · 14:00 · 18:00</b>';
+    if (live !== undefined) txt += ' · on now';
+    else if (next !== undefined) { const d = next - mins; txt += ` · next in ${d >= 60 ? Math.floor(d / 60) + ' h ' : ''}${String(d % 60).padStart(d >= 60 ? 2 : 1, '0')} min`; }
+    else txt += ' · next tomorrow at 10:00';
+    $('times').innerHTML = txt;
+  }
+
+  $('go').addEventListener('click', () => {
+    if (S.phase === 'idle') {
+      S.phase = 'filling'; S.t0 = performance.now(); S.chat = 0; $('go').disabled = true; $('go').textContent = 'The water is rising…';
+      if (reduce) { S.level = 45; CHAT.forEach((c, i) => addChat(i)); S.phase = 'full'; $('tags').style.opacity = 1; $('go').disabled = false; $('go').textContent = 'Drain the room'; setStep(2); tick(performance.now()); return; }
+      S.raf = requestAnimationFrame(tick);
+    } else if (S.phase === 'full') {
+      S.phase = 'draining'; S.drainT0 = performance.now(); $('go').disabled = true; $('go').textContent = 'Draining…';
+      if (reduce) { S.level = 0; $('stain').style.opacity = .9; S.phase = 'done'; finish(); tick(performance.now()); return; }
+      S.raf = requestAnimationFrame(tick);
+    }
+  });
+  $('shop').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; const i = +b.dataset.i; if (S.picked.has(i)) S.picked.delete(i); else S.picked.add(i); drawShop(); });
+  $('again').addEventListener('click', () => {
+    cancelAnimationFrame(S.raf);
+    Object.assign(S, { phase: 'idle', level: 0, chat: 0 });
+    scene(); $('chat').innerHTML = '<p class="empty">The chat opens when the tide show starts.</p>';
+    $('viewers').textContent = '312 watching'; $('timer').textContent = '00:00'; $('level').textContent = 'Dry';
+    $('cmpCard').hidden = true; $('shopCard').hidden = true; $('go').hidden = false; $('go').disabled = false; $('go').textContent = 'Start the tide show';
+    setStep(1); window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  });
+
+  scene(); drawWater(0, 0); showTimes(); setInterval(showTimes, 30000);
+})();
+</script>
+
+</body>
+</html>

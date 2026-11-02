@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>:root{color-scheme:light}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Mùa Mưa Scan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&display=swap">
+<style>
+/* Layout: one phone-width column. The AR camera view is the hero; the steps, water levels, item list and plan stack under it. */
+:root{
+  --bg:#EDF2F1; --surface:#F8FAF9; --ink:#0E2731; --muted:#55707A; --line:#D3DEDC;
+  --accent:#1B6475; --on-accent:#FFFFFF; --glow:#7FD0DC;
+  --risk:#B03A24; --risk-soft:#F6E3DD; --safe:#1B6475; --safe-soft:#DCEFF1;
+  --hud-bg:rgba(14,39,49,.74); --hud-ink:#FFFFFF; --shadow:rgba(14,39,49,.14);
+  --display:'Fraunces', Georgia, 'Times New Roman', serif;
+  --body:'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* The scene: a ground-floor flat in Ho Chi Minh City, front view, 2 px per cm, floor line at y = 250 */
+  --wall:#E3E8E6; --sky:#9FB8C2; --rain:#F2F8F9; --floor:#CDBFAC; --floor-line:#B8AA95; --skirt:#BFB3A0;
+  --wood:#B88C61; --wood-dark:#8C6744; --fabric:#5D7E85; --fabric-dark:#46626A; --cushion:#6E9097;
+  --metal:#97A3A6; --screen:#1C282E; --glare:rgba(255,255,255,.09); --plastic:#F4F2EC; --paper:#F2EEE4;
+  --card:#C9A676; --card-dark:#A9875A; --f1:#C4432B; --f2:#D9A23A; --f3:#2A8C9E; --rug:#B5583F; --rug2:#E2C07A;
+  --mattress:#F2EFE9; --pillow:#FBFAF7; --blanket:#7D9BA1; --laminate:#DAD4C8; --lamp:#E8C877;
+  --kit:#2A8C9E; --kit-hi:#7FD0DC; --water-top:rgba(127,208,220,.62); --water-bot:rgba(27,100,117,.84); --water-line:#E9FAFC;
+  --pin:#0E2731; --pin-ink:#FFFFFF; --gauge:#55707A; --gauge-bg:rgba(14,39,49,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1E26; --surface:#12303A; --ink:#E9F1F0; --muted:#A2B8BE; --line:#24464F;
+    --accent:#7FD0DC; --on-accent:#0B1E26; --glow:#7FD0DC;
+    --risk:#F08A6E; --risk-soft:#3B2621; --safe:#7FD0DC; --safe-soft:#143B45; --shadow:rgba(0,0,0,.4);
+    --wall:#2B3C42; --sky:#1C3340; --rain:#8FB4BE; --floor:#3D3B36; --floor-line:#4B4943; --skirt:#46443E;
+    --wood:#8B6B4C; --wood-dark:#6A5037; --fabric:#4B6970; --fabric-dark:#3A535A; --cushion:#587A81;
+    --metal:#7B888B; --screen:#0A1215; --plastic:#D9D6CE; --paper:#D6D2C8; --card:#A38A62; --card-dark:#86704E;
+    --f2:#B98A33; --f3:#3FA3B5; --rug:#94493A; --rug2:#B89A60; --mattress:#CFCBC3; --pillow:#DEDAD2; --blanket:#5F7D84;
+    --laminate:#8F8A80; --kit:#3FA3B5; --water-top:rgba(127,208,220,.5); --water-bot:rgba(16,57,74,.86); --water-line:#BFEFF5;
+    --pin:#E9F1F0; --pin-ink:#0B1E26; --gauge:#A2B8BE; --gauge-bg:rgba(233,241,240,.08);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1E26; --surface:#12303A; --ink:#E9F1F0; --muted:#A2B8BE; --line:#24464F;
+  --accent:#7FD0DC; --on-accent:#0B1E26; --glow:#7FD0DC;
+  --risk:#F08A6E; --risk-soft:#3B2621; --safe:#7FD0DC; --safe-soft:#143B45; --shadow:rgba(0,0,0,.4);
+  --wall:#2B3C42; --sky:#1C3340; --rain:#8FB4BE; --floor:#3D3B36; --floor-line:#4B4943; --skirt:#46443E;
+  --wood:#8B6B4C; --wood-dark:#6A5037; --fabric:#4B6970; --fabric-dark:#3A535A; --cushion:#587A81;
+  --metal:#7B888B; --screen:#0A1215; --plastic:#D9D6CE; --paper:#D6D2C8; --card:#A38A62; --card-dark:#86704E;
+  --f2:#B98A33; --f3:#3FA3B5; --rug:#94493A; --rug2:#B89A60; --mattress:#CFCBC3; --pillow:#DEDAD2; --blanket:#5F7D84;
+  --laminate:#8F8A80; --kit:#3FA3B5; --water-top:rgba(127,208,220,.5); --water-bot:rgba(16,57,74,.86); --water-line:#BFEFF5;
+  --pin:#E9F1F0; --pin-ink:#0B1E26; --gauge:#A2B8BE; --gauge-bg:rgba(233,241,240,.08);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:20px 36px}
+.app{max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.eyebrow{margin:0;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{margin:6px 0 0;font-family:var(--display);font-style:italic;font-weight:600;font-size:42px;line-height:1.02;letter-spacing:-.01em;text-wrap:balance}
+h1 span{color:var(--accent)}
+.lede{margin:8px 0 0;color:var(--muted);max-width:34ch}
+.steps{display:flex;gap:6px;list-style:none;margin:0;padding:0;font-size:13px;font-weight:600;color:var(--muted)}
+.steps li{flex:1;padding:7px 8px;border-radius:999px;background:var(--surface);border:1px solid var(--line);text-align:center}
+.steps li[aria-current="step"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.seg button{appearance:none;border:0;border-radius:10px;background:transparent;color:var(--ink);font:600 15px/1 var(--body);padding:13px 4px;cursor:pointer;font-variant-numeric:tabular-nums}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+button:focus-visible{outline:3px solid var(--glow);outline-offset:2px}
+.cam{position:relative;border-radius:22px;overflow:hidden;background:var(--wall);box-shadow:0 12px 32px var(--shadow)}
+.cam svg{display:block;width:100%;height:auto}
+.hudline{margin:0 0 -8px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.03em;color:var(--muted);font-variant-numeric:tabular-nums}
+.dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+.corner{position:absolute;width:22px;height:22px;border:3px solid var(--glow);pointer-events:none}
+.tl{top:10px;left:10px;border-right:0;border-bottom:0;border-radius:9px 0 0 0}
+.tr{top:10px;right:10px;border-left:0;border-bottom:0;border-radius:0 9px 0 0}
+.bl{bottom:10px;left:10px;border-right:0;border-top:0;border-radius:0 0 0 9px}
+.br{bottom:10px;right:10px;border-left:0;border-top:0;border-radius:0 0 9px 0}
+.rain line{stroke:var(--rain);stroke-width:1.3;stroke-linecap:round;opacity:.85;animation:fall .8s linear infinite}
+@keyframes fall{from{transform:translate(3px,-34px)}to{transform:translate(-3px,34px)}}
+.g{font:600 10px var(--body);fill:var(--gauge);paint-order:stroke;stroke:var(--wall);stroke-width:3px;stroke-linejoin:round}
+.bbox{fill:none;stroke:var(--kit-hi);stroke-width:1.6;stroke-dasharray:5 4}
+.pin circle{fill:var(--pin);stroke:var(--wall);stroke-width:2;transition:fill .25s}
+.pin[data-s="risk"] circle{fill:var(--risk)}
+.pin[data-s="safe"] circle{fill:var(--safe)}
+.pin text{fill:var(--pin-ink);font:700 10px var(--body);text-anchor:middle;dominant-baseline:central}
+.primary{appearance:none;border:0;border-radius:14px;background:var(--accent);color:var(--on-accent);font:600 17px/1 var(--body);padding:18px 20px;cursor:pointer;width:100%}
+.primary:disabled{opacity:.6;cursor:progress}
+.levels{display:flex;flex-direction:column;gap:8px}
+.caption{margin:0;font-size:14px;color:var(--muted);text-align:center}
+.status{display:flex;flex-direction:column;gap:2px}
+.count{margin:0;font-family:var(--display);font-style:italic;font-weight:600;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.count.risk{color:var(--risk)} .count.safe{color:var(--safe)}
+.sub{margin:0;color:var(--muted);font-size:14px}
+.items{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.items li{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.num{width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);font-size:13px;font-weight:700;display:grid;place-items:center}
+.txt{min-width:0}
+.name{display:block;font-weight:600;line-height:1.3}
+.detail{display:block;font-size:13px;color:var(--muted);line-height:1.35}
+.chip{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:var(--surface);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
+.chip.risk{background:var(--risk-soft);color:var(--risk);border-color:transparent}
+.chip.safe{background:var(--safe-soft);color:var(--safe);border-color:transparent}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.plan h2{margin:0;font-family:var(--display);font-style:italic;font-weight:600;font-size:28px;line-height:1.1}
+.plan ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.plan li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.plan li .num{background:var(--safe);color:var(--on-accent)}
+.plan b{display:block;font-weight:600;line-height:1.3}
+.plan small{display:block;font-size:13px;color:var(--muted);line-height:1.4}
+.planfoot{margin:0;padding-top:12px;border-top:1px solid var(--line);font-size:14px;font-weight:600}
+.ghost{appearance:none;background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:14px;padding:15px;font:600 15px/1 var(--body);cursor:pointer}
+footer{font-size:12px;color:var(--muted);line-height:1.5}
+@media (prefers-reduced-motion: reduce){.rain line,.dot{animation:none}}
+</style>
+
+<main class="app">
+  <header>
+    <p class="eyebrow">Concept prototype · Ho Chi Minh City</p>
+    <h1>Mùa Mưa <span>Scan</span></h1>
+    <p class="lede">See your room under 20, 30 or 45 cm of water, then protect it.</p>
+  </header>
+  <ol class="steps" aria-label="Steps">
+    <li id="st1" aria-current="step">1 Scan</li><li id="st2">2 Flood</li><li id="st3">3 Protect</li>
+  </ol>
+  <div class="seg" role="group" aria-label="Room">
+    <button id="room-living" type="button" aria-pressed="true">Living room</button>
+    <button id="room-bedroom" type="button" aria-pressed="false">Bedroom</button>
+  </div>
+  <p class="hudline"><i class="dot"></i><span id="hud">AR view</span></p>
+  <div class="cam">
+    <svg id="scene" viewBox="0 0 400 300" role="img" aria-label="A ground-floor living room before the scan"></svg>
+    <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <button id="scan" class="primary" type="button">Scan my room</button>
+  <div id="levelBox" class="levels" hidden>
+    <div id="levels" class="seg" role="group" aria-label="Water level">
+      <button type="button" data-l="0" aria-pressed="true">Dry</button>
+      <button type="button" data-l="20" aria-pressed="false">20 cm</button>
+      <button type="button" data-l="30" aria-pressed="false">30 cm</button>
+      <button type="button" data-l="45" aria-pressed="false">45 cm</button>
+    </div>
+    <p id="caption" class="caption">Pick a level to flood the room.</p>
+  </div>
+  <div class="status" aria-live="polite"><p id="count" class="count">Scan your room</p><p id="sub" class="sub">The camera finds what the water can reach.</p></div>
+  <ol id="items" class="items" hidden></ol>
+  <button id="protect" class="primary" type="button" hidden>Protect my home</button>
+  <section id="plan" class="plan" hidden aria-labelledby="planTitle">
+    <h2 id="planTitle">Your Mùa Mưa plan</h2>
+    <ol id="planList"></ol>
+    <p id="planFoot" class="planfoot"></p>
+    <button id="again" class="ghost" type="button">Start again</button>
+  </section>
+  <footer>Student concept prototype from our strategy pitch on IKEA in Vietnam (Coventry University, 2026). Not an IKEA app. Built with AI assistance.</footer>
+</main>
+
+<script>
+(() => {
+  const reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const $ = id => document.getElementById(id);
+  const svg = $('scene');
+  const Y = cm => 250 - 2 * cm;                       // height in cm -> y in the drawing
+  const R = (x, y, w, h, f, rx) => `<rect x="${x}" y="${y}" width="${w}" height="${h}"${rx ? ` rx="${rx}"` : ''} style="fill:var(--${f})"/>`;
+  const dots = (x, y) => [0, 1, 2].map(k => R(x + 4 + k * 6, y + 2, 2.5, 2.5, 'screen')).join('');
+  const risers = (xs, h, w = 14) => xs.map(x => R(x, Y(h), w, 2 * h, 'kit', 2) + R(x + 2, Y(h) + 4, 2, 2 * h - 8, 'kit-hi')).join('');
+  const windowSVG = (x, y, w, h) => {
+    let rain = '';
+    for (let k = 0; k < 12; k++) {
+      const lx = x + 6 + (k * 37) % (w - 8), ly = y + 4 + (k * 23) % (h - 10);
+      rain += `<line x1="${lx}" y1="${ly}" x2="${lx - 3}" y2="${ly + 9}" style="animation-delay:${(-k * 0.13).toFixed(2)}s"/>`;
+    }
+    return `<clipPath id="win"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3"/></clipPath>` +
+      R(x, y, w, h, 'sky', 3) + `<g class="rain" clip-path="url(#win)">${rain}</g>` +
+      R(x, y + h / 2 - 1, w, 2, 'wall') + R(x + w / 2 - 1, y, 2, h, 'wall') +
+      `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" style="fill:none;stroke:var(--skirt);stroke-width:3"/>`;
+  };
+  const ROLL = 'Roll it up when the tide alert comes';
+  const ALERT = 'free: Lịch Triều warns you 3 days before the high tide';
+
+  const ROOMS = {
+    living: {
+      label: 'Living room', noun: 'living room',
+      decor: windowSVG(60, 20, 90, 66) + R(344, 170, 52, 3, 'wood-dark'),
+      items: [
+        { id: 'rug', name: 'Rug', dmg: 0, safeDmg: 1e9, mode: 'swap',
+          restText: 'On the floor', safeText: 'Rolled up on the sofa', plan: [ROLL, ALERT],
+          bbox: [16, 252, 214, 20], pin: [[236, 262], [176, 80]],
+          rest: '<polygon points="32,254 214,254 230,270 16,270" style="fill:var(--rug)"/><polygon points="40,259 206,259 211,264 34,264" style="fill:var(--rug2)"/>',
+          safe: R(84, 83, 82, 13, 'rug', 6.5) + '<ellipse cx="166" cy="89.5" rx="4" ry="6.5" style="fill:var(--rug2)"/>' },
+        { id: 'tv', name: 'TV bench and TV', dmg: 2, safeDmg: 58, mode: 'swap',
+          restText: 'Chipboard from 2 cm', safeText: 'On the wall, from 58 cm',
+          plan: ['Wall-mounted TV bench', 'fixed at 58 cm, with the TV on the wall above'],
+          bbox: [222, 84, 108, 166], pin: [[222, 180], [222, 100]],
+          rest: R(226, 246, 6, 4, 'wood-dark') + R(320, 246, 6, 4, 'wood-dark') + R(222, 182, 108, 64, 'wood', 2) +
+            R(226, 188, 66, 24, 'wood-dark', 1) + R(228, 190, 62, 20, 'wood', 1) + R(226, 216, 66, 26, 'wood-dark', 1) + R(228, 218, 62, 22, 'wood', 1) +
+            R(296, 186, 30, 20, 'wood-dark', 1) + R(268, 174, 16, 8, 'screen') + R(236, 84, 80, 90, 'screen', 3) +
+            '<polygon points="244,90 270,90 252,166 244,166" style="fill:var(--glare)"/>',
+          safe: R(222, 102, 108, 32, 'wood', 2) + R(226, 117, 100, 2, 'wood-dark') + R(232, 134, 6, 10, 'kit') + R(314, 134, 6, 10, 'kit') +
+            R(236, 28, 80, 62, 'screen', 3) + '<polygon points="244,33 268,33 254,84 244,84" style="fill:var(--glare)"/>' },
+        { id: 'sofa', name: 'Sofa', dmg: 12, safeDmg: 47, mode: 'lift', lift: 35,
+          restText: 'Fabric from 12 cm', safeText: 'Raised 35 cm: dry up to 47 cm',
+          plan: ['Mùa Mưa raise kit', 'lifts the sofa you already own by 35 cm'],
+          bbox: [40, 86, 156, 164], pin: [[40, 142], [40, 72]],
+          rest: R(50, 226, 8, 24, 'wood-dark') + R(178, 226, 8, 24, 'wood-dark') + R(46, 86, 144, 84, 'fabric-dark', 8) +
+            R(56, 98, 62, 64, 'fabric', 8) + R(118, 98, 62, 64, 'fabric', 8) + R(40, 208, 156, 18, 'fabric-dark', 3) +
+            R(58, 166, 60, 44, 'cushion', 6) + R(118, 166, 60, 44, 'cushion', 6) + R(40, 142, 18, 84, 'fabric', 7) + R(178, 142, 18, 84, 'fabric', 7),
+          risers: risers([47, 175], 35) },
+        { id: 'strip', name: 'Power strip', dmg: 25, safeDmg: 85, mode: 'swap',
+          restText: 'Inside the TV bench, at 25 cm', safeText: 'On a wall shelf at 85 cm',
+          plan: ['Wall socket shelf', 'keeps the plugs 85 cm above the floor'],
+          bbox: [296, 188, 30, 18], pin: [[334, 198], [356, 72]],
+          rest: R(300, 195, 22, 6, 'plastic', 1) + dots(300, 196),
+          safe: R(322, 80, 26, 3, 'kit') + R(324, 74, 22, 6, 'plastic', 1) + dots(324, 75) },
+        { id: 'papers', name: 'Family papers', dmg: 40, safeDmg: 100, mode: 'swap',
+          restText: 'On a low shelf, at 40 cm', safeText: 'Sealed box at 100 cm',
+          plan: ['Waterproof document box', 'sealed, on a shelf at 100 cm'],
+          bbox: [344, 132, 52, 42], pin: [[344, 130], [342, 16]],
+          rest: R(350, 134, 9, 36, 'f1', 1) + R(361, 138, 9, 32, 'f2', 1) + R(372, 136, 11, 34, 'f3', 1) + R(386, 150, 8, 20, 'paper', 1),
+          safe: R(344, 50, 52, 3, 'kit') + R(350, 22, 40, 28, 'kit', 3) + R(348, 19, 44, 5, 'kit-hi', 2) + R(362, 31, 16, 8, 'plastic', 1) }
+      ]
+    },
+    bedroom: {
+      label: 'Bedroom', noun: 'bedroom',
+      decor: windowSVG(70, 14, 70, 46) + R(266, 150, 3, 100, 'metal') + R(297, 150, 3, 100, 'metal') + R(264, 202, 38, 3, 'metal') +
+        R(262, 146, 42, 5, 'wood', 2) + R(282, 112, 2, 34, 'metal') + '<polygon points="270,112 296,112 290,96 276,96" style="fill:var(--lamp)"/>',
+      items: [
+        { id: 'mat', name: 'Bedside mat', dmg: 0, safeDmg: 1e9, mode: 'swap',
+          restText: 'On the floor', safeText: 'Rolled up on the bed', plan: [ROLL, ALERT],
+          bbox: [70, 252, 190, 20], pin: [[264, 262], [238, 66]],
+          rest: '<polygon points="82,254 248,254 260,270 70,270" style="fill:var(--rug2)"/><polygon points="92,259 238,259 243,264 86,264" style="fill:var(--rug)"/>',
+          safe: R(150, 71, 80, 13, 'rug2', 6.5) + '<ellipse cx="230" cy="77.5" rx="4" ry="6.5" style="fill:var(--rug)"/>' },
+        { id: 'boxes', name: 'Storage under the bed', dmg: 0, safeDmg: 100, mode: 'swap',
+          restText: 'Boxes on the floor', safeText: 'Sealed boxes at 100 cm',
+          plan: ['Waterproof storage boxes', 'moved to a shelf at 100 cm'],
+          bbox: [108, 224, 92, 26], pin: [[104, 222], [156, 18]],
+          rest: R(108, 226, 46, 24, 'card', 1) + R(108, 235, 46, 3, 'card-dark') + R(160, 230, 40, 20, 'card', 1) + R(160, 238, 40, 3, 'card-dark'),
+          safe: R(160, 50, 90, 3, 'kit') + R(166, 22, 36, 28, 'kit', 3) + R(164, 19, 40, 5, 'kit-hi', 2) + R(208, 26, 36, 24, 'kit', 3) + R(206, 23, 40, 5, 'kit-hi', 2) },
+        { id: 'strip2', name: 'Power strip', dmg: 25, safeDmg: 85, mode: 'swap',
+          restText: 'On the bedside shelf, at 25 cm', safeText: 'On a wall shelf at 85 cm',
+          plan: ['Wall socket shelf', 'keeps the plugs 85 cm above the floor'],
+          bbox: [268, 190, 30, 14], pin: [[304, 196], [300, 70]],
+          rest: R(270, 195, 24, 6, 'plastic', 1) + dots(271, 196),
+          safe: R(266, 80, 30, 3, 'kit') + R(270, 74, 22, 6, 'plastic', 1) + dots(270, 75) },
+        { id: 'bed', name: 'Bed', dmg: 28, safeDmg: 63, mode: 'lift', lift: 35,
+          restText: 'Mattress from 28 cm', safeText: 'Raised 35 cm: dry up to 63 cm',
+          plan: ['Mùa Mưa raise kit', 'lifts the bed you already own by 35 cm'],
+          bbox: [40, 60, 210, 190], pin: [[250, 150], [250, 80]],
+          rest: R(58, 216, 6, 34, 'metal') + R(236, 216, 6, 34, 'metal') + R(40, 60, 14, 160, 'wood', 4) + R(54, 194, 192, 22, 'metal', 2) +
+            R(54, 158, 192, 36, 'mattress', 8) + R(62, 142, 46, 18, 'pillow', 8) + R(118, 152, 128, 26, 'blanket', 8),
+          risers: risers([54, 232], 35) },
+        { id: 'wardrobe', name: 'Wardrobe', dmg: 40, safeDmg: 60, mode: 'lift', lift: 20,
+          restText: 'Clothes from 40 cm', safeText: 'Raised 20 cm: dry up to 60 cm',
+          plan: ['Raising legs', 'adds 20 cm under the wardrobe'],
+          bbox: [316, 8, 80, 242], pin: [[316, 160], [316, 120]],
+          rest: R(320, 170, 5, 80, 'metal') + R(387, 170, 5, 80, 'metal') + R(316, -40, 80, 210, 'laminate') + R(355, -40, 2, 210, 'skirt') +
+            R(347, 92, 3, 18, 'metal', 1) + R(362, 92, 3, 18, 'metal', 1) + R(316, 162, 80, 8, 'wood-dark'),
+          risers: risers([319, 386], 20, 7) }
+      ]
+    }
+  };
+  const CAP = { 0: 'Pick a level to flood the room.', 20: '20 cm · a heavy downpour', 30: '30 cm · a downpour at high tide', 45: '45 cm · a severe flood, the level of our water test room' };
+
+  function gauge() {
+    let g = R(2, Y(60), 8, 120, 'gauge-bg', 2);
+    for (let cm = 0; cm <= 60; cm += 5) g += R(2, Y(cm) - 0.6, cm % 10 ? 4 : 8, 1.2, 'gauge');
+    for (const cm of [20, 30, 45]) g += `<text class="g" x="19" y="${Y(cm)}" dy="0.35em">${cm}</text>`;
+    return g;
+  }
+  function sceneMarkup(room) {
+    let s = '<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--water-top)"/><stop offset="1" style="stop-color:var(--water-bot)"/></linearGradient>' +
+      '<linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--kit-hi);stop-opacity:0"/><stop offset="1" style="stop-color:var(--kit-hi);stop-opacity:.45"/></linearGradient></defs>';
+    s += R(0, 0, 400, 250, 'wall') + room.decor + R(0, 250, 400, 50, 'floor');
+    for (const y of [262, 280]) s += R(0, y, 400, 1.2, 'floor-line');
+    for (let x = -200; x <= 600; x += 50) s += `<line x1="${200 + (x - 200) * 0.62}" y1="250" x2="${x}" y2="300" style="stroke:var(--floor-line);stroke-width:1.2"/>`;
+    s += R(0, 244, 400, 6, 'skirt') + gauge();
+    room.items.forEach(it => {
+      s += it.mode === 'lift'
+        ? `<g id="k-${it.id}" style="opacity:0">${it.risers}</g><g id="g-${it.id}">${it.rest}</g>`
+        : `<g id="g-${it.id}">${it.rest}</g><g id="s-${it.id}" style="opacity:0">${it.safe}</g>`;
+    });
+    s += '<path id="water" style="fill:url(#wg)" d=""/><path id="surf" style="fill:none;stroke:var(--water-line);stroke-width:1.6;stroke-linecap:round" d=""/>';
+    s += '<path id="mark" style="fill:var(--kit-hi)" d="M11 0 L17 -4.5 L17 4.5 Z" opacity="0"/>';
+    room.items.forEach(it => { const [x, y, w, h] = it.bbox; s += `<rect id="b-${it.id}" class="bbox" x="${x}" y="${y}" width="${w}" height="${h}" rx="4" style="opacity:0"/>`; });
+    s += '<g id="sweep" style="opacity:0"><rect x="0" y="-26" width="400" height="26" style="fill:url(#sg)"/><rect x="0" y="-2" width="400" height="2.5" style="fill:var(--kit-hi)"/></g>';
+    room.items.forEach((it, i) => { s += `<g id="p-${it.id}" class="pin" style="opacity:0"><circle r="9"/><text y="0.5">${i + 1}</text></g>`; });
+    return s;
+  }
+
+  const E = { scan: $('scan'), levelBox: $('levelBox'), levels: $('levels'), caption: $('caption'), count: $('count'), sub: $('sub'),
+    list: $('items'), protect: $('protect'), plan: $('plan'), planList: $('planList'), planFoot: $('planFoot'), again: $('again'), hud: $('hud') };
+  const S = { room: 'living', scanned: false, scanning: false, scanT0: 0, doneAt: 0, level: 0, shown: 0, prot: false, protT0: 0, sig: '' };
+  let room, items, last = performance.now();
+  const clamp = v => v < 0 ? 0 : v > 1 ? 1 : v;
+  const ease = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+
+  function setStep(k) {
+    ['st1', 'st2', 'st3'].forEach((id, i) => { const el = $(id); if (i + 1 === k) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current'); });
+  }
+  function setLevel(l) {
+    S.level = l;
+    E.levels.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.l === l)));
+    E.caption.textContent = CAP[l];
+  }
+  function reset() {
+    Object.assign(S, { scanned: false, scanning: false, doneAt: 0, prot: false, sig: '' });
+    items.forEach(it => { it.found = 0; it.p = 0; });
+    E.scan.hidden = false; E.scan.disabled = false; E.scan.textContent = 'Scan my room';
+    E.levelBox.hidden = true; E.list.hidden = true; E.protect.hidden = true; E.plan.hidden = true;
+    setLevel(0); setStep(1);
+  }
+  function build() {
+    room = ROOMS[S.room]; items = room.items;
+    svg.innerHTML = sceneMarkup(room);
+    ['water', 'surf', 'mark', 'sweep'].forEach(id => { E[id] = svg.querySelector('#' + id); });
+    items.forEach(it => {
+      it.g = svg.querySelector('#g-' + it.id); it.s = svg.querySelector('#s-' + it.id); it.k = svg.querySelector('#k-' + it.id);
+      it.b = svg.querySelector('#b-' + it.id); it.pe = svg.querySelector('#p-' + it.id);
+    });
+    E.list.innerHTML = items.map((it, i) => `<li><span class="num">${i + 1}</span><span class="txt"><span class="name">${it.name}</span><span class="detail">${it.restText}</span></span><span class="chip dry">Dry</span></li>`).join('');
+    E.planList.innerHTML = items.map((it, i) => `<li><span class="num">${i + 1}</span><span><b>${it.plan[0]}</b><small>${it.name} · ${it.plan[1]}</small></span></li>`).join('');
+    E.planFoot.textContent = `${items.length} changes · built for 45 cm of water · payable in instalments`;
+    S.shown = 0; reset();
+  }
+  function onScanned() { E.scan.hidden = true; E.levelBox.hidden = false; E.list.hidden = false; E.protect.hidden = false; setStep(2); }
+
+  function drawWater(t) {
+    const lv = S.shown;
+    if (lv < 0.3) { E.water.setAttribute('d', ''); E.surf.setAttribute('d', ''); E.mark.setAttribute('opacity', '0'); return; }
+    const y0 = Y(lv), amp = reduce ? 0 : 1.6;
+    let top = '';
+    for (let x = 0; x <= 400; x += 10) {
+      const y = y0 + Math.sin(x / 28 + t * 2.2) * amp + Math.sin(x / 11 - t * 3.1) * amp * 0.4;
+      top += (x ? ' L' : 'M') + x + ' ' + y.toFixed(2);
+    }
+    E.water.setAttribute('d', top + ' L400 300 L0 300 Z');
+    E.surf.setAttribute('d', top);
+    E.mark.setAttribute('transform', `translate(0,${y0.toFixed(2)})`); E.mark.setAttribute('opacity', '1');
+  }
+
+  function status() {
+    const lv = S.shown, n = items.length;
+    const st = items.map(it => {
+      if (!S.scanned) return 'idle';
+      if (it.p >= 1) return 'safe';
+      return lv > it.dmg + 0.01 ? 'risk' : 'dry';
+    });
+    const risk = st.filter(s => s === 'risk').length, prot = st.filter(s => s === 'safe').length;
+    const sig = st.join() + '|' + S.level + '|' + S.scanning + '|' + S.scanned;
+    if (sig === S.sig) return;
+    S.sig = sig;
+    items.forEach((it, i) => {
+      const li = E.list.children[i]; if (!li) return;
+      const chip = li.querySelector('.chip');
+      chip.className = 'chip ' + st[i];
+      chip.textContent = st[i] === 'risk' ? 'At risk' : st[i] === 'safe' ? 'Protected' : 'Dry';
+      li.querySelector('.detail').textContent = st[i] === 'safe' ? it.safeText : it.restText;
+      it.pe.dataset.s = st[i];
+    });
+    let c, sub, cls = '';
+    if (S.scanning) { c = 'Scanning…'; sub = `The camera is measuring your ${room.noun}.`; }
+    else if (!S.scanned) { c = 'Scan your room'; sub = 'The camera finds what the water can reach.'; }
+    else if (S.prot && prot === n) { c = `${risk} of ${n} at risk`; sub = 'Your plan keeps everything dry up to 45 cm.'; cls = 'safe'; }
+    else if (S.level === 0) { c = `${n} items found`; sub = 'Pick a water level to flood the room.'; }
+    else { c = `${risk} of ${n} at risk`; sub = `with ${S.level} cm of water`; cls = risk ? 'risk' : 'safe'; }
+    E.count.textContent = c; E.count.className = 'count ' + cls; E.sub.textContent = sub;
+    E.hud.textContent = S.scanning ? 'Scanning…' : S.scanned ? `AR view · ${S.level ? S.level + ' cm of water' : n + ' items found'}` : `AR view · ${room.label}`;
+    svg.setAttribute('aria-label', `${room.label}${S.level ? `, ${S.level} cm of water` : ''}: ${S.scanned ? `${risk} of ${n} items at risk` : 'not scanned yet'}`);
+  }
+
+  function tick(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    const t = now / 1000;
+    let sweep = -10;
+    if (S.scanning) {
+      const s = reduce ? 1 : (now - S.scanT0) / 1700;
+      sweep = s * 300;
+      items.forEach(it => { if (!it.found && sweep >= it.bbox[1] + it.bbox[3] / 2) it.found = now; });
+      if (s >= 1) {
+        S.scanning = false; S.scanned = true; S.doneAt = now;
+        items.forEach(it => { if (!it.found) it.found = now; });
+        onScanned();
+      }
+    }
+    E.sweep.style.opacity = S.scanning ? 1 : 0;
+    E.sweep.setAttribute('transform', `translate(0,${sweep.toFixed(1)})`);
+    S.shown = reduce ? S.level : S.shown + (S.level - S.shown) * Math.min(1, dt * 3);
+    if (Math.abs(S.level - S.shown) < 0.05) S.shown = S.level;
+    drawWater(t);
+    items.forEach((it, i) => {
+      const raw = S.prot ? (reduce ? 1 : clamp((now - S.protT0) / 700 - i * 0.25)) : 0;
+      const p = ease(raw);
+      it.p = raw;
+      if (it.mode === 'lift') {
+        it.g.setAttribute('transform', `translate(0,${(-2 * it.lift * p).toFixed(2)})`);
+        it.k.style.opacity = p;
+      } else {
+        it.g.style.opacity = 1 - p; it.g.setAttribute('transform', `translate(0,${(-8 * p).toFixed(2)})`);
+        it.s.style.opacity = p; it.s.setAttribute('transform', `translate(0,${(8 * (1 - p)).toFixed(2)})`);
+      }
+      let bo = 0;
+      if (it.found) { bo = reduce ? 1 : clamp((now - it.found) / 250); if (S.doneAt) bo *= 1 - clamp((now - S.doneAt - 900) / 500); }
+      it.b.style.opacity = bo;
+      const [[x0, y0], [x1, y1]] = it.pin;
+      it.pe.setAttribute('transform', `translate(${(x0 + (x1 - x0) * p).toFixed(1)},${(y0 + (y1 - y0) * p).toFixed(1)})`);
+      it.pe.style.opacity = it.found ? (reduce ? 1 : clamp((now - it.found) / 250)) : 0;
+    });
+    status();
+    requestAnimationFrame(tick);
+  }
+
+  E.scan.addEventListener('click', () => {
+    if (S.scanning || S.scanned) return;
+    items.forEach(it => { it.found = 0; });
+    S.scanning = true; S.scanT0 = performance.now();
+    E.scan.disabled = true; E.scan.textContent = 'Scanning…';
+  });
+  E.levels.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    setLevel(+b.dataset.l);
+  });
+  E.protect.addEventListener('click', () => {
+    S.prot = true; S.protT0 = performance.now();
+    E.protect.hidden = true; setStep(3);
+    if (S.level === 0) setLevel(45);
+    setTimeout(() => {
+      E.plan.hidden = false;
+      E.plan.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+    }, reduce ? 0 : 700 + items.length * 250);
+  });
+  E.again.addEventListener('click', () => { reset(); window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+  [['room-living', 'living'], ['room-bedroom', 'bedroom']].forEach(([id, key]) => {
+    $(id).addEventListener('click', () => {
+      if (S.room === key) return;
+      S.room = key;
+      $('room-living').setAttribute('aria-pressed', String(key === 'living'));
+      $('room-bedroom').setAttribute('aria-pressed', String(key === 'bedroom'));
+      build();
+    });
+  });
+
+  build();
+  requestAnimationFrame(tick);
+})();
+</script>
+
+</body>
+</html>
